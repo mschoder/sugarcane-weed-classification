@@ -176,9 +176,9 @@ class NDI_CIVE_ExG_Transform(T.Transform):
 
     def apply_image(self,img):
         B,G,R = cv2.split(img)
-        B = B.astype('uint32');
-        G = G.astype('uint32')
-        R = R.astype('uint32')
+        B = B.astype('float32');
+        G = G.astype('float32')
+        R = R.astype('float32')
         #NDI
         NDI=128.0*(G-R)/(G+R+1)
         #CIVE
