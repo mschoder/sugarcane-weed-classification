@@ -188,6 +188,11 @@ class NDI_CIVE_ExG_Transform(T.Transform):
         tot =  R_st+G_st+B_st
         r = R_st/(tot+.01); g = G_st/(tot+.01); b = B_st/(tot+.01)
         ExG = 2*g-r-b
+        # normalize
+        NDI = (NDI - NDI.min()) / (NDI.max() - NDI.min())
+        CIVE = (CIVE - CIVE.min()) / (CIVE.max() - CIVE.min())
+        ExG = (ExG - ExG.min()) / (ExG.max() - ExG.min())
+        
         img_out = cv2.merge((NDI,CIVE,ExG))
         return img_out
 
