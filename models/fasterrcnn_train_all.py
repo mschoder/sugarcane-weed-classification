@@ -275,12 +275,15 @@ class CocoTrainer(DefaultTrainer):
 
 ############# TRAINING CONFIG ####################
 
-pretrained_models = ["COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml",
-                     "COCO-Detection/faster_rcnn_R_101_FPN_3x.yaml",
+# pretrained_models = ["COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml",
+#                      "COCO-Detection/faster_rcnn_R_101_FPN_3x.yaml",
+#                      "COCO-Detection/faster_rcnn_X_101_32x8d_FPN_3x.yaml"]
+
+pretrained_models = ["COCO-Detection/faster_rcnn_R_101_FPN_3x.yaml",
                      "COCO-Detection/faster_rcnn_X_101_32x8d_FPN_3x.yaml"]
 
 color_tfs = [NoOpTransform(), HSV_EQ_Transform(), 
-             HLS_EQ_Transform(), NDI_CIVE_ExG_Transform()]
+             HLS_EQ_Transform()]
 
 for ptmodel in pretrained_models:
     for tf in color_tfs:
