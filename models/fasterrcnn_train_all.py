@@ -176,14 +176,17 @@ class NDI_CIVE_ExG_Transform(T.Transform):
 
     def apply_image(self,img):
         B,G,R = cv2.split(img)
+        B = B.astype('uint32');
+        G = G.astype('uint32')
+        R = R.astype('uint32')
         #NDI
-        NDI=128*((G-R)/(G+R)+1)
+        NDI=128.0*(G-R)/(G+R+1)
         #CIVE
         CIVE = 0.441*R-.881*G+.385*B+18.78745
         #ExG
         R_st = R/255; G_st = G/255 ; B_st = B/255
         tot =  R_st+G_st+B_st
-        r = R_st/tot; g = G_st/tot; b = B_st/tot
+        r = R_st/(tot+.01); g = G_st/(tot+.01); b = B_st/(tot+.01)
         ExG = 2*g-r-b
         img_out = cv2.merge((NDI,CIVE,ExG))
         return img_out
@@ -275,15 +278,16 @@ class CocoTrainer(DefaultTrainer):
 
 ############# TRAINING CONFIG ####################
 
-# pretrained_models = ["COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml",
-#                      "COCO-Detection/faster_rcnn_R_101_FPN_3x.yaml",
-#                      "COCO-Detection/faster_rcnn_X_101_32x8d_FPN_3x.yaml"]
-
-pretrained_models = ["COCO-Detection/faster_rcnn_R_101_FPN_3x.yaml",
+pretrained_models = ["COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml",
+                     "COCO-Detection/faster_rcnn_R_101_FPN_3x.yaml",
                      "COCO-Detection/faster_rcnn_X_101_32x8d_FPN_3x.yaml"]
 
-color_tfs = [NoOpTransform(), HSV_EQ_Transform(), 
-             HLS_EQ_Transform()]
+# pretrained_models = ["COCO-Detection/faster_rcnn_R_101_FPN_3x.yaml",
+#                      "COCO-Detection/faster_rcnn_X_101_32x8d_FPN_3x.yaml"]
+
+# color_tfs = [NoOpTransform(), HSV_EQ_Transform(), 
+#              HLS_EQ_Transform()]
+color_tfs = [NDI_CIVE_ExG_Transform()]
 
 for ptmodel in pretrained_models:
     for tf in color_tfs:
