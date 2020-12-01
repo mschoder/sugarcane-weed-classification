@@ -11,7 +11,11 @@ cap = cv2.VideoCapture('/home/mschoder/data/raw_video/Nightshade-2-LEFT_trim_67p
 out_size = (1200, 800)
 # out_size = (704,576)
 fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v') # note the lower case
+<<<<<<< Updated upstream
 out = cv2.VideoWriter('home/mschoder/data/raw_video/test_vid_1200x800.avi',fourcc, 20.0, out_size)
+=======
+out = cv2.VideoWriter('/Users/mschoder/weeding_project/processed_video/test_vid_1200x800.avi',fourcc, 20.0, out_size)
+>>>>>>> Stashed changes
 
 i = 0
 while(cap.isOpened()):
